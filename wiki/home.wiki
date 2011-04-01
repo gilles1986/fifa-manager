@@ -3,6 +3,6 @@ Will be added when fifa-manager 1.0 is released
 
 = Developer Manual =
 
- * [Introduction]
- * [Source Structure]
- * [Classes]
+ * [devIntro Introduction]
+ * [sourceStruc Source Structure]
+ * [classes Classes]
