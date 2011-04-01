@@ -5,5 +5,7 @@ This project is written in php and javascript. The php part is written in mvc-st
  * A bit experience in smarty
  * Main knowledge in javascript
 
- 
 
+== How the mvc works ==
+<a href="http://encarnium.de/uploads/wiki/home_action.png"><img src="http://encarnium.de/uploads/wiki/home_action.png" width="800" /></a>
+ 
