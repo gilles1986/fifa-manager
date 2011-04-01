@@ -1,0 +1,78 @@
+{
+  "error404" : {
+    "controller" : "Error",
+    "space" : "Error",
+    "view" : "404"
+  },
+	"home" : {
+    "controller" : "Home",
+		"space" : "Home",
+		"view" : "Home"
+	},
+	"install" : {
+    "controller" : "Install",
+    "space" : "Home",
+    "view" : "Install"
+  },
+	"language" : {
+    "controller" : "Utility",
+    "space" : "",
+    "view" : ""
+  },
+	"register" : {
+    "controller" : "DoLogin",
+    "space" : "_includes",
+    "view" : "ajaxRegister"
+  },
+	"doRegister" : {
+    "controller" : "DoLogin",
+    "space" : "Home",
+    "view" : "Home"
+  },
+	"login" : {
+    "controller" : "DoLogin",
+    "space" : "",
+    "view" : ""
+  },
+	"logout" : {
+    "controller" : "DoLogin",
+    "space" : "",
+    "view" : ""
+  },
+	"showTournament" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "showTournament"
+  },
+	"createTournament" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "ajaxCreateTournament"
+  },
+	"searchTournament" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "ajaxSearchTournament"
+  },
+	"doCreateTourn" : {
+    "controller" : "Tournament",
+    "space" : "",
+    "view" : ""
+  },
+	"addGame" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "ajaxAddGame"
+  },
+	"manager" : {
+    "controller" : "Home",
+    "space" : "_includes",
+    "view" : "ajaxManager"
+  },
+	"addPlayer" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "ajaxAddPlayer"
+  }
+}
+
