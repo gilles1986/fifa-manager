@@ -38,10 +38,20 @@ class UserDao {
   
   public function getUsersByTournamentId($id) {
     $this->db->connect();
-    $res = $this->db->select("Select * From `user`");
+    $res = $this->db->select("Select `user`.`nickname` as `nickname`, `user`.`avatar` as `avatar`, `tournplayer`.`team` as `team` From `user`, `tournplayer`  Where `user`.`id` = `tournplayer`.`playerid` AND `tournid`='".intval($id)."'");
     $this->db->close();
     return $res;
   }
+  
+  public function getFreeUsersByTournamentId($id) {
+    $this->db->connect();
+    $res = $this->db->select("SELECT `user`.`nickname` FROM `user` WHERE 
+    `id` NOT IN (SELECT `tournplayer`.`playerid` FROM `tournplayer` WHERE `tournid` = '".intval($id)."')");
+    $this->db->close();
+    return $res;
+  }
+  
+  
   
   public function register($name,$pw,$nickname, $avatar) {
     $this->db->connect();

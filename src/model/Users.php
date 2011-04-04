@@ -24,6 +24,12 @@ class Users {
   }
   
   public function loadUsersByTourn($id) {
+    $this->users = array();
+    $users = $this->dao->getFreeUsersByTournamentId($id);
+    
+  }
+  
+  public function loadFreeUsersByTourn($id) {
     
   }
   
