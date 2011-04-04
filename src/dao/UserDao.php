@@ -8,16 +8,23 @@ class UserDao {
     $this->db = new MysqlDatabase(parse_ini_file(CONFIG."db.ini"));
   }
   
-  public function loadUserById($id) {
+  public function getUserById($id) {
     $this->db->connect();
     $res = $this->db->select("Select * from `user` Where `id` = '".intval($id)."'");
     $this->db->close();
     return $res[0];
   }
   
-  public function loadUserByName($name) {
+  public function getUserByName($name) {
     $this->db->connect();
     $res = $this->db->select("Select * from `user` Where `username` = '".mysql_real_escape_string($name)."'");
+    $this->db->close();
+    return $res[0];
+  }
+  
+  public function getUserBynickname($name) {
+    $this->db->connect();
+    $res = $this->db->select("Select * from `user` Where `nickname` = '".mysql_real_escape_string($name)."'");
     $this->db->close();
     return $res[0];
   }
@@ -36,16 +43,33 @@ class UserDao {
     return $res;
   }
   
+  public function getFullUsersByTournamentId($id) {
+    $this->db->connect();
+    $res = $this->db->select("
+    Select `user`.`name` as `name`,
+    `user`.`nickname` as `nickname`,
+    `user`.`id` as `id`,
+    `user`.`avatar` as `avatar`,
+    `tournplayer`.`team` as `team`, 
+    `tournplayer`.`wins` as `wins`,
+    `tournplayer`.`loss` as `loss`,
+    `tournplayer`.`points` as `points`,
+    `tournplayer`.`ties` as `ties` From `user`, `tournplayer`
+     Where `user`.`id` = `tournplayer`.`playerid` AND `tournid`='".intval($id)."' Order By `tournplayer`.`points` Desc");
+    $this->db->close();
+    return $res;
+  }
+  
   public function getUsersByTournamentId($id) {
     $this->db->connect();
-    $res = $this->db->select("Select `user`.`nickname` as `nickname`, `user`.`avatar` as `avatar`, `tournplayer`.`team` as `team` From `user`, `tournplayer`  Where `user`.`id` = `tournplayer`.`playerid` AND `tournid`='".intval($id)."'");
+    $res = $this->db->select("Select `user`.`nickname` as `nickname`,`user`.`id` as `id`, `user`.`avatar` as `avatar`, `tournplayer`.`team` as `team` From `user`, `tournplayer`  Where `user`.`id` = `tournplayer`.`playerid` AND `tournid`='".intval($id)."'");
     $this->db->close();
     return $res;
   }
   
   public function getFreeUsersByTournamentId($id) {
     $this->db->connect();
-    $res = $this->db->select("SELECT `user`.`nickname` FROM `user` WHERE 
+    $res = $this->db->select("SELECT `user`.`nickname` as `nickname`, `user`.`id` as `id`, `user`.`avatar` as `avatar` FROM `user` WHERE 
     `id` NOT IN (SELECT `tournplayer`.`playerid` FROM `tournplayer` WHERE `tournid` = '".intval($id)."')");
     $this->db->close();
     return $res;

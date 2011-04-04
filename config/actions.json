@@ -73,6 +73,16 @@
     "controller" : "Tournament",
     "space" : "_includes",
     "view" : "ajaxAddPlayer"
+  },
+  "doAddPlayer" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "ajaxAddPlayer"
+  },
+  "doDeletePlayer" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "ajaxAddPlayer"
   }
 }
 

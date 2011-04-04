@@ -28,8 +28,11 @@ abstract class Controller {
     
     $lang = ($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";  
     $this->var->assign("lang", $lang);
-    
-    $this->init();
+    try {
+      $this->init();
+    } catch(Exception $e) {
+      // Dont throw an error if init is not defined
+    }
   }
   
   protected function show($template=false) {

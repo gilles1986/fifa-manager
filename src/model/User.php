@@ -9,6 +9,8 @@ class User {
   private $avatar;
   private $nickname;
   
+  private $team;
+  
   public function __construct() {
     $this->dao = new UserDao();
   }
@@ -34,6 +36,42 @@ class User {
      } else {
        return false;
      }
+  }
+  
+  public function load() {
+    if($this->id) {
+      $this->loadById();
+    } else if($this->name != "") {
+      $this->loadByName();
+    } else if($this->nickname != "") {
+      
+    } else {
+      return false;
+    }
+  }
+  
+  private function loadByNickname() {
+    $user = $this->dao->getUserByNickname($this->nickname);
+    $this->id = $user['id'];
+    $this->username = $user['name'];
+    $this->password = $user['password'];
+    $this->avatar = $user['avatar'];
+  }
+  
+  private function loadByName() {
+    $user = $this->dao->getUserByName($this->username);
+    $this->id = $user['id'];
+    $this->password = $user['password'];
+    $this->nickname = $user['nickname'];
+    $this->avatar = $user['avatar'];
+  }
+  
+  private function loadById() {
+    $user = $this->dao->getUserById($this->id);
+    $this->username = $user['name'];
+    $this->password = $user['password'];
+    $this->nickname = $user['nickname'];
+    $this->avatar = $user['avatar'];
   }
   
   public function save() {
@@ -137,6 +175,21 @@ class User {
     }
   
   }
+
+  public function getTeam()
+  {
+      return $this->team;
+  }
+
+  public function setTeam($team)
+  {
+      $this->team = $team;
+  }
+  
+  
+  
+  
 }
+
 
 ?>

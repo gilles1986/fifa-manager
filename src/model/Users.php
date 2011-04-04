@@ -25,12 +25,29 @@ class Users {
   
   public function loadUsersByTourn($id) {
     $this->users = array();
-    $users = $this->dao->getFreeUsersByTournamentId($id);
+    $users = $this->dao->getUsersByTournamentId($id);
+    for($i=0; $i < count($users); $i++) {
+      $user = new User();
+      $user->setNickname($users[$i]['nickname']);
+      $user->setId($users[$i]['id']);
+      $user->setTeam($users[$i]['team']);
+      $user->setAvatar($users[$i]['avatar']);
+      array_push($this->users, $user);
+    }
     
   }
   
   public function loadFreeUsersByTourn($id) {
-    
+    $this->users = array();
+    $users = $this->dao->getFreeUsersByTournamentId($id);
+    for($i=0; $i < count($users); $i++) {
+      $user = new User();
+      $user->setId($users[$i]['id']);
+      $user->setNickname($users[$i]['nickname']);
+      $user->setTeam($users[$i]['team']);
+      $user->setAvatar($users[$i]['avatar']);
+      array_push($this->users, $user);
+    }
   }
   
   public function getUsers() {

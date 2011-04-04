@@ -55,6 +55,38 @@ class TournamentDao {
     return $res;
   }
   
+  
+  
+  public function getTournPlayerByIds($playerid, $tournid) {
+    $this->db->connect();
+    $res = $this->db->select("Select * From `tournplayer` Where `playerid` = '".intval($playerid)."' AND `tournid` = '".intval($tournid)."'");
+    $this->db->close();
+    return $res[0];
+  }
+  
+  public function getTournPlayerById($id) {
+    $this->db->connect();
+    $res = $this->db->select("Select * From `tournplayer` Where `id` = '".intval($id)."'");
+    $this->db->close();
+    return $res[0];
+  }
+  
+  public function insertTournamentPlayer($playerid, $tournid) {
+    $this->db->connect();
+    $status = $this->db->insert("tournplayer",array("playerid","tournid", "wins", "loss", "ties", "team"), array(intval($playerid),intval($tournid),0,0,0,""));
+    $this->db->close(); 
+    return $status;
+  }
+  
+  public function deleteTournamentPlayer($playerid, $tournid) {
+    $this->db->connect();
+    $status = $this->db->delete("tournplayer", " `playerid` = '".intval($playerid)."' AND `tournid` = '".intval($tournid)."'");
+    $this->db->close(); 
+    return $status;
+  }
+  
+  
+  
 }
 
 ?>

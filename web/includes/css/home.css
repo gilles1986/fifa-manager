@@ -49,3 +49,31 @@ ul, li {
 	display: block;
 }
 
+
+/* Tournament */
+.tournTable {
+ border-spacing: 0;
+ border: 1px solid black; 
+}
+
+.tournTable th {
+  background-color: #669977;
+}
+
+.tournTable td, .tournTable th {
+   border-right: 1px solid black;
+   border-bottom: 1px solid black;
+}
+
+.tournTable .lastDown td {
+   border-bottom: none;
+}
+
+.tournTable .lastRight {
+   border-right: none;
+}
+
+.tournTable .points {
+  background-color: #CCFFFF;
+}
+
