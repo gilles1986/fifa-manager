@@ -8,6 +8,7 @@
     private $autorid;
     
     private $dao;
+    private $players; 
     
     public function __construct() {
       $this->dao = new TournamentDao();

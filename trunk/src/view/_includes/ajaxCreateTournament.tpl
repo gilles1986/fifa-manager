@@ -4,7 +4,7 @@
 {else}
   {config_load section="tournament" file="Home/home_en.conf"} 
 {/if}
-<form action="index.php" class="ajaxForm">
+<form action="index.php" class="ajaxForm" method="GET">
   <label for="tournName">{#tourn_name#}</label>
   <input type="text" name="tournName" id="tournName" />
   <input type="hidden" name="action" value="doCreateTourn" />

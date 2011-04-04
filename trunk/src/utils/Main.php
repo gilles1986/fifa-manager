@@ -14,6 +14,7 @@ class Main {
     include_once SRC."utils/MysqlDatabase.php";
     include_once SRC."utils/IniWriter.php";
     include_once SRC."utils/FileUploader.php";
+    include_once SRC."utils/LogException.php";
     include_once SRC."libs/Smarty.class.php";
 
 
@@ -24,6 +25,8 @@ class Main {
     Logger::init();
 
     // Aktion auslesen
+    Logger::info("Request ist ".print_r($_REQUEST, true), "System");
+    Logger::debug("Action Name ist '".$_REQUEST['action']."'", "System");
     $action = ($_REQUEST['action']) ? $_REQUEST['action'] : "home";
     $actionsConf = parse_ini_file(CONFIG."action.ini");
 
@@ -37,15 +40,17 @@ class Main {
         die();
       }
 
-      Logger::debug(print_r($actionConf, true),"System");
+      //Logger::debug(print_r($actionConf, true),"System");
       Logger::debug("Action: ".$contr, "System");
 
       // Existiert die Aktion?
       if($actionConf[$contr]) {
         $action = $actionConf[$contr];
+        Logger::debug("Die Action $contr existiert", "System");
       } else {
         // Aktion existiert nicht.
         if($actionConf['error404']) {
+          Logger::debug("Die Action $contr existiert nicht. 404 aufrufen", "System");
           $action = $actionConf['error404'];
           $contr = 'error404';
         } else {
@@ -57,6 +62,7 @@ class Main {
         }
       }
 
+      
       include_once SRC."controller/".$action['controller']."Controller.php";
       $className = $action['controller']."Controller";
     } catch (Exception $e) {
@@ -64,6 +70,7 @@ class Main {
     }
     // Controller aufrufen
     try {
+      Logger::debug("Objekt von $className erzeugen", "System");
       $obj = new $className($contr, $action);
       $obj->{$contr}();
     } catch (Exception $e) {

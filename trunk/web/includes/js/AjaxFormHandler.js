@@ -8,6 +8,9 @@ function AjaxFormHandler(optionArray) {
   options.debug = 0;
   options.linkSelector = null;
   options.contentArea = null;
+  options.loadElements =  {
+    "default" : "#ajaxContent"  
+  };
   options.siteLoaderObject = null;
 
 
@@ -34,7 +37,13 @@ function AjaxFormHandler(optionArray) {
             "confName" : "siteLoaderObject",
             "type" : "object",
             "mandatory" : "true"
-           }
+           },
+           { 
+             "confName" : "loadElements",
+             "type" : "object",
+             "mandatory" : "false",
+             "extend" : "deep"
+           } 
     ];
 
     if(argOptions !== undefined) setDebug(argOptions['debug']);
@@ -70,13 +79,16 @@ function AjaxFormHandler(optionArray) {
    * Event-Methode! (this => element)
    */
   this.sendAjaxRequestEvent = function(event) {
+    event.preventDefault();
     log.debug("AjaxFormHandler::sendAjaxRequestEvent");
-    method = $(this).attr('method');
+    var method = $(this).attr('method');
     if (method === ""){
         method = "GET";
     }
-    action = $(this).attr('action');
-    saveData = $(this).serialize();
+    var action = $(this).attr('action');
+    var cssClass = $(this).attr('class');
+    var saveData = $(this).serialize();
+    var elem = this;
 
     $.ajax({
        type: method,
@@ -84,13 +96,32 @@ function AjaxFormHandler(optionArray) {
        data: saveData,
        success: function(msg){
          if (msg){
-            $(options.contentArea).html(msg);
+           $(getTargetElement(elem)).html(msg); 
+           //$(options.contentArea).html(msg);
             options.siteLoaderObject.setEventHandlers("false");
+            I.setEventHandlers();
          }
        }
      });
-     I.setEventHandlers();
+     
     return false;
+  };
+  
+  /**
+   * Liest aus den CSS-Klassen des Links das Target-Element aus, in das die Informationen geschrieben werden sollen
+   * @param element Link Element von dem die Klassen ausgelesen werden sollen
+   * @returns Target-Selector-String 
+   */
+  var getTargetElement = function(element) {
+    log.debug("AjaxFormHandler::getTargetElement");
+    for(var className in options.loadElements) {
+      if($(element).hasClass(className) == true) {
+        if(typeof options.loadElements[className] == "string") {
+          return options.loadElements[className];
+        }         
+      }      
+    }
+    return options.loadElements["default"];    
   };
 
 
