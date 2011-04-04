@@ -36,6 +36,13 @@ class UserDao {
     return $res;
   }
   
+  public function getUsersByTournamentId($id) {
+    $this->db->connect();
+    $res = $this->db->select("Select * From `user`");
+    $this->db->close();
+    return $res;
+  }
+  
   public function register($name,$pw,$nickname, $avatar) {
     $this->db->connect();
     $res = $this->db->insert("user",
