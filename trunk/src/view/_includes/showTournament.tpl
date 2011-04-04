@@ -27,14 +27,20 @@
     <td class="points lastRight">{$player->getPoints()}</td>
   </tr>
   {/foreach}
-  
-  {if $teamField == true}
-    <form action="?chooseTeam">
-      
-    </form>
-  {/if}
-  
 </table>
+
+{if $teamField == true}
+<form action="?chooseTeam" method="GET" class="ajaxForm teamTable">
+  <label for="teamname">{#team_choose#}:</label>
+  <select id="teamname" name="teamname">
+    {foreach from=$teams item=team}
+    <option value="{$team->getId()}">{$team->getName()}</option>
+    {/foreach}
+  </select>    
+</form>
+{/if}
+  
+
 <ul style="margin-top: 3em;">
 <li><a class="dynLink ajaxContent" href="?action=addGame&id={$smarty.request.id}">{#add_game#}</a></li>
 <li><a class="dynLink ajaxContent" href="?action=addPlayer&id={$smarty.request.id}">{#add_player#}</a></li>

@@ -17,12 +17,21 @@ class Teams {
       $team = new Team();
       $team->setName($teams[$i]['name']);
       $team->setId($teams[$i]['id']);
+      array_push($this->teams, $team);
     }
   }
  
+  
 
-  
-  
+  public function getTeams()
+  {
+      return $this->teams;
+  }
+
+  public function setTeams($teams)
+  {
+      $this->teams = $teams;
+  }
 }
 
 

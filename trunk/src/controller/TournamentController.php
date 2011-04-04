@@ -33,6 +33,11 @@ class TournamentController extends Controller {
       $players = $tournamentPlayers->getPlayers();
       $user = unserialize($_SESSION['user']);
       
+      $teams = new Teams();
+      $teams->loadTeams();
+      
+      $this->var->assign("teams", $teams->getTeams());
+      
       for($i=0; $i < count($players); $i++) {
         $player = $players[$i]->getUser();
         if($player->getNickname() == $user->getNickname()) {
