@@ -2,8 +2,8 @@
 
 class LogWarning extends Exception {
   
-  public function __construct($message) {
-    Logger::warning($message);
+  public function __construct($message, $logname="Log") {
+    Logger::warning($message, $logname);
     parent::__construct($message);
   }
   

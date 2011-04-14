@@ -28,7 +28,15 @@ class Team {
     }
   }
   
-
+  public function load() {
+  if($this->id > 0) {
+      $result = $this->dao->getById($this->id);
+      $this->name = $result['name'];
+    } else {
+      return false;
+    }
+  }
+  
   public function getId()
   {
       return $this->id;

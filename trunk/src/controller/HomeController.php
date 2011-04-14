@@ -15,6 +15,7 @@ class HomeController extends Controller {
     include_once SRC."dao/UserDao.php";
     
     if($_SESSION['error']) {
+      Logger::debug("Setze Error Message: ".$_SESSION['error'], "HomeController");
       $this->var->assign("error", $_SESSION['error']);
       $_SESSION['error'] = null;
     }

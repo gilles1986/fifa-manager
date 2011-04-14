@@ -1,3 +1,4 @@
+{assign var="lang" value="Error/home_{$smarty.cookies.lang}.conf"}
 {if $site->exists($lang)}
   {config_load section="tournament" file={eval var=$lang}} 
 {else}

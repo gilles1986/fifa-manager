@@ -14,6 +14,13 @@ class TeamDao {
     $this->db->close();
     return $res;
   }
+
+  public function getById($id) {
+    $this->db->connect();
+    $res = $this->db->select("Select * from `teams` Where `id`='".intval($id)."'");
+    $this->db->close();
+    return $res[0];
+  }
   
   public function insert($name) {
     $this->db->connect();

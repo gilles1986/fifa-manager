@@ -47,6 +47,8 @@ class DoLoginController extends Controller {
         $user = new User();
         $user->setUsername($_REQUEST['name']);
         $user->setNickname($_REQUEST['nickname']);
+        if($user->exist()) throw new LogWarning("user_exists");
+        
         $user->setPassword($_REQUEST['password']);
         $user->setAvatar($_FILES['file']);
         Logger::debug("Call register function", "DoLoginController");
