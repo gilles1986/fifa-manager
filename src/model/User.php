@@ -38,6 +38,13 @@ class User {
      }
   }
   
+  public function exist() {
+    Logger::debug("User::exist()","User");
+    $this->loadByName(); 
+    if($this->id > 0) return false;
+    return true;    
+  }
+  
   public function load() {
     if($this->id) {
       $this->loadById();
@@ -149,7 +156,7 @@ class User {
   public function register() {
     Logger::debug("User::register","User");
     if($this->username && $this->password && $this->nickname) {
-      $user = $this->dao->loadUserByName($this->username);
+      $user = $this->dao->getUserByName($this->username);
       // Existiert der User ?
       if($user) { 
         Logger::debug("User \"".$this->getName()."\" existiert bereits", "User"); 

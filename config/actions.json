@@ -83,6 +83,21 @@
     "controller" : "Tournament",
     "space" : "_includes",
     "view" : "ajaxAddPlayer"
+  },
+  "chooseTeam" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "showTournament"
+  },
+  "startTourn" : {
+    "controller" : "Tournament",
+    "space" : "",
+    "view" : ""
+  },
+  "stopTourn" : {
+    "controller" : "Tournament",
+    "space" : "",
+    "view" : ""
   }
 }
 

@@ -14,21 +14,32 @@
       $this->dao = new TournamentDao();
     }
     
+    public function load() {
+      if($this->id > 0) {
+        $this->loadById($this->id);
+      }
+    }
+    
     public function loadById($id) {
       $res = $this->dao->loadTournamentById($id);
       $this->id = $res['id'];
       $this->name = $res['name'];
       $this->status = $res['status'];
       $this->winner = $res['winnerid'];
+      $this->autorid = $res['autorid'];
     }
     
     
     public function save() {
       if($this->id && $this->id > 0) {
-        $this->dao->updateTournament($this->id, $this->name, $this->status, $this->autorid, $this->winner);
+        if(!$this->dao->updateTournament($this->id, $this->name, $this->status, $this->autorid, $this->winner)) throw new LogWarning("tourn_update_error");
       } else {
-        Logger::debug("Add new Tournament", "Tournament");
-        $this->dao->insertTournament($this->name, $this->autorid);
+        if($this->name != "") {
+          Logger::debug("Add new Tournament", "Tournament");
+          if(!$this->dao->insertTournament($this->name, $this->autorid)) throw new LogWarning("tourn_insert_error");
+        } else {
+          throw new LogWarning("tourn_save_no_id");
+        }
       }
     }
   

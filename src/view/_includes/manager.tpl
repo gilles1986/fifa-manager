@@ -1,4 +1,4 @@
-{assign var="lang" value="Error/error404_{$lang}.conf"}
+{assign var="lang" value="Error/error404_{$smarty.cookies.lang}.conf"}
 {if $site->exists($lang)}
   {config_load file={eval var=$lang}} 
 {else}

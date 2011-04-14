@@ -33,18 +33,19 @@ class TournamentController extends Controller {
       $players = $tournamentPlayers->getPlayers();
       $user = unserialize($_SESSION['user']);
       
+      if($_REQUEST['message']) $this->var->assign("message", $_REQUEST['message']);
+      
       $teams = new Teams();
       $teams->loadTeams();
-      
+      $this->var->assign("user",$user);
       $this->var->assign("teams", $teams->getTeams());
       
       for($i=0; $i < count($players); $i++) {
         $player = $players[$i]->getUser();
-        if($player->getNickname() == $user->getNickname()) {
-          if($player->getTeam() == "") {
-            $this->var->assign("teamField", true);  
-          }
-          
+        if($player->getNickname() == $user->getNickname() && $tournament->getStatus() == "open") {
+          Logger::debug("ChooseTeam: \r\n".print_r($user, true), "TournamentController");
+          $this->var->assign("userid", $user->getId());
+          $this->var->assign("teamField", true);  
         }
       }
       
@@ -120,6 +121,49 @@ class TournamentController extends Controller {
     }
 
     $this->addPlayer();
+  }
+  
+  public function chooseTeam() {
+    Logger::debug("chooseTeam::\r\n".print_r($_REQUEST, true), "TournamentController");
+    $tournPlayer = new TournamentPlayer();
+    $tournPlayer->setPlayerid($_REQUEST['playerId']);
+    $tournPlayer->setTournid($_REQUEST['tournId']);
+    $tournPlayer->load();
+    $tournPlayer->setTeam($_REQUEST['teamname']);
+    $tournPlayer->save();
+    $this->redirect("?action=showtournament&id=".$tournPlayer->getTournid());
+  }
+  
+  public function startTourn() {
+    Logger::debug("startTourn::\r\n".print_r($_REQUEST, true), "TournamentController");
+    $tournId = intval($_REQUEST['id']);
+    $tourn = new Tournament;
+    $tourn->setId($tournId);
+    $tourn->load();
+    $tourn->setStatus("started");
+    try {
+      $tourn->save();
+      $message = "start_tourn";
+    } catch(LogWarning $e) {
+      $message = "start_tourn_error";
+    }
+    $this->redirect("?action=showtournament&id=".$tourn->getId()."&message=$message");
+  }
+  
+  public function stopTourn() {
+    Logger::debug("stopTourn::\r\n".print_r($_REQUEST, true), "TournamentController");
+    $tournId = intval($_REQUEST['id']);
+    $tourn = new Tournament;
+    $tourn->setId($tournId);
+    $tourn->load();
+    $tourn->setStatus("open");
+    try {
+      $tourn->save();
+      $message = "stop_tourn";
+    } catch(LogWarning $e) {
+      $message = "stop_tourn_error";
+    }
+    $this->redirect("?action=showtournament&id=".$tourn->getId()."&message=$message");
   }
   
   public function doDeletePlayer() {

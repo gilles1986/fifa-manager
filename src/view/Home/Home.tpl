@@ -1,4 +1,4 @@
-{assign var="lang" value="Home/home_{$lang}.conf"}
+{assign var="lang" value="Home/home_{$smarty.cookies.lang}.conf"}
 {if $site->exists($lang)}
   {config_load section="main" file={eval var=$lang}} 
 {else}

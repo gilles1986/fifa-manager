@@ -38,14 +38,16 @@ class TournamentDao {
   
   public function updateTournament($id, $name, $status, $autorid, $winner=0) {
     $this->db->connect();
-    $this->db->update("tourn",array("name","status","winnerid","autorid"), array(mysql_real_escape_string($name), mysql_real_escape_string($status), mysql_real_escape_string($winner), intval($autorid)),"`id`='".intval($id)."'");
-    $this->db->close();    
+    $status = $this->db->update("tourn",array("name","status","winnerid","autorid"), array(mysql_real_escape_string($name), mysql_real_escape_string($status), mysql_real_escape_string($winner), intval($autorid)),"`id`='".intval($id)."'");
+    $this->db->close(); 
+    return $status;   
   }
   
   public function insertTournament($name, $autorid) {
     $this->db->connect();
-    $this->db->insert("tourn",array("name","status","winnerid","autorid"), array(mysql_real_escape_string($name),"open",0, $autorid) );
-    $this->db->close();    
+    $status = $this->db->insert("tourn",array("name","status","winnerid","autorid"), array(mysql_real_escape_string($name),"open",0, $autorid) );
+    $this->db->close();
+    return $status;    
   }
   
   public function getUsersByTourn($id) {
@@ -65,6 +67,7 @@ class TournamentDao {
   }
   
   public function getTournPlayerById($id) {
+    Logger::debug("getTournPlayerById:: \r\n Select * From `tournplayer` Where `id` = '".intval($id)."'", "TournamentDao");
     $this->db->connect();
     $res = $this->db->select("Select * From `tournplayer` Where `id` = '".intval($id)."'");
     $this->db->close();
@@ -74,6 +77,14 @@ class TournamentDao {
   public function insertTournamentPlayer($playerid, $tournid) {
     $this->db->connect();
     $status = $this->db->insert("tournplayer",array("playerid","tournid", "wins", "loss", "ties", "team"), array(intval($playerid),intval($tournid),0,0,0,""));
+    $this->db->close(); 
+    return $status;
+  }
+  
+  public function updateTournamentPlayer($id ,$playerid, $tournid, $wins, $loss, $ties, $team) {
+    Logger::debug(print_r(array($id ,$playerid, $tournid, $wins, $loss, $ties, $team), true), "TournamentDao");
+    $this->db->connect();
+    $status = $this->db->update("tournplayer",array("playerid","tournid", "wins", "loss", "ties", "team"), array(intval($playerid),intval($tournid),intval($wins),intval($loss),intval($ties),intval($team)), "`id`='".intval($id)."'");
     $this->db->close(); 
     return $status;
   }

@@ -12,18 +12,25 @@ class TournamentPlayer {
   
   private $dao;
   private $user;
+  private $teamObj;
 
   public function __construct() {
     $this->dao = new TournamentDao();
+    $this->teamObj = new Team();
   }
 
   public function save() {
-    if($this->playerid > 0 && $this->tournid > 0) {
+    Logger::debug("save::\r\nplayerid: ".$this->playerid."\r\ntournid: ".$this->tournid."\r\nid: ".$this->id."\r\nteam: ".$this->team , "TournamentPlayer");
+    if($this->playerid > 0 && $this->tournid > 0 && $this->id < 1) {
+      Logger::debug("save::insert");
       if($this->dao->insertTournamentPlayer($this->playerid, $this->tournid) == false) {
         throw new LogWarning("Konnte keinen Benutzer hinzufügen", "TournamentPlayer");
-      } else {
+      } else if($this->playerid > 0 && $this->tournid > 0 && $this->id > 0){
         
       }
+    } else if($this->playerid > 0 && $this->tournid > 0 && $this->id > 0){
+        Logger::debug("save::update!!!\r\n".print_r($this, true), "TournamentPlayer");
+        $this->dao->updateTournamentPlayer($this->id, $this->playerid, $this->tournid, $this->wins, $this->loss, $this->ties, $this->team);
     }
   }
   
@@ -40,6 +47,7 @@ class TournamentPlayer {
     if($this->id > 0) {
       $this->loadById();
     } else if($this->playerid > 0 && $this->tournid > 0){
+      Logger::debug("load!!", "TournamentPlayer");
       $this->loadByIds();
     } else {
       return false;
@@ -47,6 +55,7 @@ class TournamentPlayer {
   }
   
   private function loadById() {
+    Logger::debug("loadById:: ".$this->id,"TournamentPlayer");
     $user = $this->dao->getTournPlayerById($this->id);
     $this->id = $user['id'];
     $this->loss = $user['loss'];
@@ -56,7 +65,9 @@ class TournamentPlayer {
     $this->tournid = $user['tournid'];
     $this->playerid = $user['playerid'];
     $this->team = $user['team'];  
-       
+    $this->teamObj = new Team();
+    $this->teamObj->setId($this->team);
+    $this->teamObj->load();   
     
   }
   
@@ -69,7 +80,8 @@ class TournamentPlayer {
   }
   
   private function loadByIds() {
-    $user = $this->dao->getTournPlayerById($this->id);
+    Logger::debug("loadByIds:: ","TournamentPlayer");
+    $user = $this->dao->getTournPlayerByIds($this->playerid, $this->tournid);
     $this->id = $user['id'];
     $this->loss = $user['loss'];
     $this->wins = $user['wins'];
@@ -77,6 +89,9 @@ class TournamentPlayer {
     $this->tournid = $user['tournid'];
     $this->playerid = $user['playerid'];
     $this->team = $user['team'];
+    $this->teamObj = new Team();
+    $this->teamObj->setId($this->team);
+    $this->teamObj->load();
   }
 
 
@@ -171,6 +186,16 @@ class TournamentPlayer {
   public function setPoints($points)
   {
       $this->points = $points;
+  }
+
+  public function getTeamObj()
+  {
+      return $this->teamObj;
+  }
+
+  public function setTeamObj($teamObj)
+  {
+      $this->teamObj = $teamObj;
   }
 }
 
