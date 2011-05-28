@@ -49,7 +49,6 @@ class HomeController extends Controller {
     $user = unserialize($_SESSION['user']);
     
     $tourns->loadByUserId($user->getId());
-    Logger::debug("LOOL\r\n".print_r($tourns->getTournaments(), true), "HomeController");
     $this->var->assign("tournament", $tourns->getTournaments());
     Logger::debug("loadTable: \r\n".print_r($tourns, true), "Home");
   }

@@ -48,6 +48,7 @@
         </form>
         </td>
       {else}
+      	<td>&nbsp;</td>
       {/if}
     {/if}
     <td>{$player->getWins()}</td>
@@ -76,7 +77,7 @@
 {/if}
 
 {if $message != ""}
-<p>{$message}</p>
+<p>{#$message#}</p>
 {/if}
   
 
@@ -84,10 +85,12 @@
 <li><a class="dynLink ajaxContent" href="?action=addGame&id={$tournament->getId()}">{#add_game#}</a></li>
 <li><a class="dynLink ajaxContent" href="?action=addPlayer&id={$tournament->getId()}">{#add_player#}</a></li>
 {if $tournament->getStatus() == "open"}
-  {if $players|@count > 1 && $numberTeams == $players|@count}
+  {if $players|@count > 1 && $numberTeams == $players|@count && $tournament->getAutorId() == $user->getId()}
   <li><a class="dynLink ajaxContent" href="?action=startTourn&id={$tournament->getId()}">{#start_tourn#}</a></li>
   {/if}
 {else}
+ {if $tournament->getAutorId() == $user->getId()}
 <li><a class="dynLink ajaxContent" href="?action=stopTourn&id={$tournament->getId()}">{#stop_tourn#}</a></li>
+ {/if}
 {/if}
 </ul>

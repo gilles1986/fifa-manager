@@ -15,9 +15,26 @@ class TournamentDao {
     return $res[0];
   }
   
-  public function loadTournamentsByUserId($id) {
+  public function loadOwnTournamentsByUserId($id) {
     $this->db->connect();
     $res = $this->db->select("Select * from `tourn` Where `autorid` = '".intval($id)."'");
+    $this->db->close();
+    return $res;
+  }
+  
+  public function loadTournamentsByUserId($id) {
+    $this->db->connect();
+    $res = $this->db->select("SELECT
+     `t`.`id` as `id`,
+		 `t`.`name` as `name`,
+		 `t`.`status` as `status`,
+		 `t`.`winnerid` as `winnerid`,
+		 `t`.`autorid` as `autorid`
+     FROM `tourn` `t`, `tournplayer` `tp`
+     WHERE `t`.`autorid` = '".intval($id)."' 
+     OR  `tp`.`playerid` = '".intval($id)."' 
+     AND `tp`.`tournid` = `tournid` 
+     GROUP BY `t`.`id`");
     $this->db->close();
     return $res;
   }
@@ -74,6 +91,14 @@ class TournamentDao {
     return $res[0];
   }
   
+  public function getTournPlayerByTournId($id) {
+    Logger::debug("getTournPlayerByTournId:: \r\n Select * From `tournplayer` Where `tournid` = '".intval($id)."'", "TournamentDao");
+    $this->db->connect();
+    $res = $this->db->select("Select * From `tournplayer` Where `tournid` = '".intval($id)."'");
+    $this->db->close();
+    return $res[0];
+  }
+  
   public function insertTournamentPlayer($playerid, $tournid) {
     $this->db->connect();
     $status = $this->db->insert("tournplayer",array("playerid","tournid", "wins", "loss", "ties", "team"), array(intval($playerid),intval($tournid),0,0,0,""));
@@ -92,6 +117,13 @@ class TournamentDao {
   public function deleteTournamentPlayer($playerid, $tournid) {
     $this->db->connect();
     $status = $this->db->delete("tournplayer", " `playerid` = '".intval($playerid)."' AND `tournid` = '".intval($tournid)."'");
+    $this->db->close(); 
+    return $status;
+  }
+  
+  public function startTournament($matches) {
+    $this->db->connect();
+    $status = $this->db->insertMore("tourngame", array("player1", "player2", "status", "p1goals", "p2goals", "tournid", "winner", "order"), $matches);
     $this->db->close(); 
     return $status;
   }

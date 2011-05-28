@@ -41,8 +41,8 @@ class User {
   public function exist() {
     Logger::debug("User::exist()","User");
     $this->loadByName(); 
-    if($this->id > 0) return false;
-    return true;    
+    if($this->id > 0)  return true;
+    return false;    
   }
   
   public function load() {
@@ -66,7 +66,9 @@ class User {
   }
   
   private function loadByName() {
+    Logger::debug("loadByName:: name: ".$this->username, "User");
     $user = $this->dao->getUserByName($this->username);
+    Logger::debug(print_r($user, true), "LOGTEMP");
     $this->id = $user['id'];
     $this->password = $user['password'];
     $this->nickname = $user['nickname'];
@@ -158,8 +160,8 @@ class User {
     if($this->username && $this->password && $this->nickname) {
       $user = $this->dao->getUserByName($this->username);
       // Existiert der User ?
-      if($user) { 
-        Logger::debug("User \"".$this->getName()."\" existiert bereits", "User"); 
+      if(!empty($user)) { 
+        Logger::debug("User \"".$this->getUsername()."\" existiert bereits", "User"); 
         throw new Exception("user_exists");
       }
       // Avatar ? 

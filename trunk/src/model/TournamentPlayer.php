@@ -75,7 +75,7 @@ class TournamentPlayer {
     if($this->playerid > 0) {
       $this->user = new User();
       $this->user->setId($this->playerid);
-      $this->user->load();
+      $this->user->load();           
     }
   }
   

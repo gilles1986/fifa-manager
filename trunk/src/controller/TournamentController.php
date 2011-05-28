@@ -37,6 +37,7 @@ class TournamentController extends Controller {
       
       $teams = new Teams();
       $teams->loadTeams();
+      Logger::debug("teams: ".print_r($teams->getTeams(), true),"TournamentController");
       $this->var->assign("user",$user);
       $this->var->assign("teams", $teams->getTeams());
       
@@ -142,7 +143,13 @@ class TournamentController extends Controller {
     $tourn->load();
     $tourn->setStatus("started");
     try {
+      $user = unserialize($_SESSION['user']);
+      if($user->getId() != $tourn->getAutorid()) throw new LogWarning("Insufficient Permission"); 
       $tourn->save();
+      $tournplayer = new TournamentPlayers();
+      $tournplayer->setId($tourn->getId());
+      $tournplayer->load();
+      $tournplayer->createTournamentGames();
       $message = "start_tourn";
     } catch(LogWarning $e) {
       $message = "start_tourn_error";
