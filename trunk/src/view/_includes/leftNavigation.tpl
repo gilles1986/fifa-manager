@@ -19,9 +19,9 @@
   {else}
     <div id="userBox">
       <p>{#logged_in#} {$user->getUsername()}</p>
-      <img src="upload/imgs/{$user->getAvatar()}" width="120" />
+      <a class="dynLink manager" href="?action=userProfile&id={$user->getId()}"><img src="upload/imgs/{$user->getAvatar()}" width="120" /></a>
     </div>  
-    <a href="?action=logout">Logout</a>
+    <a href="?action=logout">Logout</a> <a class="dynLink manager" href="?action=userProfile&id={$user->getId()}">{#userprofile#}</a>
   {/if}
   <div id="chooseLanguage">
     <a href="?action=chooseLanguage&language=de"><img width="32" src="imgs/germany.png" alt="German" /></a>

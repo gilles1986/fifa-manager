@@ -58,6 +58,23 @@ class HomeController extends Controller {
     $this->show();
   }
   
+  /**
+   * Lädt das Benutzer Profil
+   * 
+   */
+  public function profile() {
+   $id = intval($_REQUEST['id']);
+   $user = new User();
+   $user->setId($id);
+   $user->load();
+   if($user->exists()) {
+    $this->var->assign("profile", $user);
+   } else {
+    $this->var->assign("error", "user_profile_not_exist");
+   }
+   $this->show();
+  }
+  
   
   
 }
