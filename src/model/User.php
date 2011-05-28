@@ -11,6 +11,8 @@ class User {
   
   private $team;
   
+  private $exists = false;
+  
   public function __construct() {
     $this->dao = new UserDao();
   }
@@ -59,6 +61,8 @@ class User {
   
   private function loadByNickname() {
     $user = $this->dao->getUserByNickname($this->nickname);
+    if($user['id'] != "") $this->exists = true; 
+    else $this->exists = false;
     $this->id = $user['id'];
     $this->username = $user['name'];
     $this->password = $user['password'];
@@ -68,6 +72,8 @@ class User {
   private function loadByName() {
     Logger::debug("loadByName:: name: ".$this->username, "User");
     $user = $this->dao->getUserByName($this->username);
+    if($user['id'] != "") $this->exists = true; 
+    else $this->exists = false;
     Logger::debug(print_r($user, true), "LOGTEMP");
     $this->id = $user['id'];
     $this->password = $user['password'];
@@ -77,6 +83,9 @@ class User {
   
   private function loadById() {
     $user = $this->dao->getUserById($this->id);
+    Logger::debug(print_r($user, true), "LOGTEMP");
+    if($user['id'] != "") $this->exists = true; 
+    else $this->exists = false;   
     $this->username = $user['name'];
     $this->password = $user['password'];
     $this->nickname = $user['nickname'];
@@ -198,6 +207,16 @@ class User {
   
   
   
+
+  public function exists()
+  {
+      return $this->exists;
+  }
+
+  public function setExists($exists)
+  {
+      $this->exists = $exists;
+  }
 }
 
 

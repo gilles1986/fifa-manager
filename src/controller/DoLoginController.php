@@ -18,7 +18,7 @@ class DoLoginController extends Controller {
       Logger::debug("call login","User");
       if($user->login()) {
         // Replace password for session
-        $user->setPassword = "";
+        $user->setPassword("");
         Logger::debug("Login successfull. Serialize Data of User", "User");
         $_SESSION['user'] = serialize($user);
         $_SESSION['loggedIn'] = true;
