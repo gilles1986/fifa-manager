@@ -17,6 +17,8 @@ class DoLoginController extends Controller {
       $user->setPassword($_REQUEST['loginPassword']);
       Logger::debug("call login","User");
       if($user->login()) {
+        // Replace password for session
+        $user->setPassword = "";
         Logger::debug("Login successfull. Serialize Data of User", "User");
         $_SESSION['user'] = serialize($user);
         $_SESSION['loggedIn'] = true;
@@ -48,7 +50,8 @@ class DoLoginController extends Controller {
         $user->setUsername($_REQUEST['name']);
         $user->setNickname($_REQUEST['nickname']);
         if($user->exist()) throw new LogWarning("user_exists");
-        
+        $user->setUsername($_REQUEST['name']);
+        $user->setNickname($_REQUEST['nickname']);
         $user->setPassword($_REQUEST['password']);
         $user->setAvatar($_FILES['file']);
         Logger::debug("Call register function", "DoLoginController");

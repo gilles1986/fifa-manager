@@ -17,12 +17,12 @@ class UserDao {
   
   public function getUserByName($name) {
     $this->db->connect();
-    $res = $this->db->select("Select * from `user` Where `username` = '".mysql_real_escape_string($name)."'");
+    $res = $this->db->select("Select * from `user` Where `name` = '".mysql_real_escape_string($name)."'");
     $this->db->close();
     return $res[0];
   }
   
-  public function getUserBynickname($name) {
+  public function getUserByNickname($name) {
     $this->db->connect();
     $res = $this->db->select("Select * from `user` Where `nickname` = '".mysql_real_escape_string($name)."'");
     $this->db->close();

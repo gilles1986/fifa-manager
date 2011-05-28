@@ -5,9 +5,11 @@ class TournamentPlayers {
   private $id;
   
   private $dao;
+  private $tournDao;
   
   public function __construct() {
     $this->dao = new UserDao();
+    $this->tournDao = new TournamentDao();
   }
   
   public function load() {
@@ -30,6 +32,7 @@ class TournamentPlayers {
        $player->setTeamObj($teamObj);
        
        $user = new User();
+       $user->setId($data['id']);
        $user->setAvatar($data['avatar']);
        $user->setUsername($data['name']);
        $user->setNickname($data['nickname']);
@@ -54,6 +57,33 @@ class TournamentPlayers {
       $this->players = $players;
   }
   
+  public function createTournamentGames() {
+    $players = $this->getPlayers();
+    
+    //var_dump($players);
+    
+    // Mix Player
+    shuffle($players);
+    $matches = array();
+    
+    // Anzahl der Matches
+    $matchCount = 0;
+    $j = 1;
+    for($i=1; $i <= count($players); $i++ ) {
+      $matchCount += count($players)-$j;
+      $j++;
+    }
+    
+    $start = 0;
+    $plus=1;
+    for($i=0; $i < $matchCount; $i++ ) {
+      if(($plus) >= count($players)) { $start++;  $plus = $start+1;  }
+      $matches[$i] = array($players[$start]->getUser()->getId(), $players[$plus]->getUser()->getId(), 'open', 0, 0, $this->id, 0, 0);  
+      $plus++;
+    }
+    
+    $this->tournDao->startTournament($matches);
+  }
 
   public function getId()
   {
