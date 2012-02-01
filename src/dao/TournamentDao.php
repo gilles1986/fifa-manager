@@ -128,6 +128,16 @@ class TournamentDao {
     return $status;
   }
   
+  public function deleteTournament($tournid) {
+    Logger::debug("Delete Tournament", "TournamentDao");
+    $this->db->connect();
+    $status = $this->db->delete("tournplayer", " `tournid` = '".intval($tournid)."'");
+    $status = $this->db->delete("tourngame", " `tournid` = '".intval($tournid)."'");
+    $status = $this->db->delete("tourn", " `id` = '".intval($tournid)."'");
+    $this->db->close(); 
+    return $status;
+  }
+  
   
   
 }

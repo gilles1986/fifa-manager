@@ -99,6 +99,11 @@
     "space" : "",
     "view" : ""
   },
+  "deleteTourn" : {
+    "controller" : "Tournament",
+    "space" : "",
+    "view" : ""
+  },
 	"profile" : {
     "controller" : "Home",
     "space" : "_includes",

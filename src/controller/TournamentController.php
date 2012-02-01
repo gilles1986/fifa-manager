@@ -3,6 +3,8 @@
 class TournamentController extends Controller {
   
   public function init() {
+    include_once SRC."model/Config.php";
+    include_once SRC."dao/ConfigDao.php";
     include_once SRC."model/User.php";
     include_once SRC."model/Users.php";
     include_once SRC."dao/UserDao.php";
@@ -34,6 +36,12 @@ class TournamentController extends Controller {
       $user = unserialize($_SESSION['user']);
       
       if($_REQUEST['message']) $this->var->assign("message", $_REQUEST['message']);
+      
+      // Creator of Tournament
+      $createPlayer = new User;
+      $createPlayer->setId($tournament->getAutorid());
+      $createPlayer->load();
+      $this->var->assign("createUser", $createPlayer);
       
       $teams = new Teams();
       $teams->loadTeams();
@@ -171,6 +179,28 @@ class TournamentController extends Controller {
       $message = "stop_tourn_error";
     }
     $this->redirect("?action=showtournament&id=".$tourn->getId()."&message=$message");
+  }
+  
+  public function deleteTourn() {
+    Logger::debug("deleteTourn", "TournamentController");
+    $tournId = intval($_REQUEST['id']);
+    $tourn = new Tournament;
+    $tourn->setId($tournId);
+    $tourn->load();
+    
+    $config = new Config();
+    $config->load();
+    
+    try {
+      $user = unserialize($_SESSION['user']);
+      Logger::debug("User Rolle: ".$user->getRole().", und Config Rolle: ".$config->get("delete_role"), "TournamentController");
+      if($user->getId() != $tourn->getAutorid() && $user->getRole() < $config->get("delete_role")) throw new LogWarning("Insufficient Permission"); 
+      $tourn->delete();
+            
+    } catch(LogWarning $e) {
+      $message = "start_tourn_error";
+    }
+    $this->redirect("?action=manager");
   }
   
   public function doDeletePlayer() {

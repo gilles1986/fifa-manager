@@ -64,7 +64,7 @@ function SiteLoader(optionArray) {
    */
   this.setEventHandlers = function(recursion) {
     if(!recursion || recursion != "false") {
-      // Ruf die Funktionen auf, die beim onSiteLoad-Event aufgerufen werden sollen
+      // Ruf die Funktionen auf, die beim  d-Event aufgerufen werden sollen
       I.callSiteEventFunctions();
     }
     log.debug("Siteloader::setEventHandlers");
