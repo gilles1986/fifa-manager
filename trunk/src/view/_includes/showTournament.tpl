@@ -5,6 +5,7 @@
   {config_load section="tournament" file="Home/home_en.conf"} 
 {/if}
 
+<p>Turnier Ersteller: {$createUser->getNickname()}</p>
 {* Zählen ob alle Spieler auch Mannschaften haben. Falls nicht darf das Turnier nicht gestartet werden *}
 {assign var="numberTeams" value="0"}
 
@@ -93,4 +94,5 @@
 <li><a class="dynLink ajaxContent" href="?action=stopTourn&id={$tournament->getId()}">{#stop_tourn#}</a></li>
  {/if}
 {/if}
+<li><a class="dynLink ajaxContent" href="?action=deleteTourn&id={$tournament->getId()}">{#delete_tourn#}</a></li>
 </ul>

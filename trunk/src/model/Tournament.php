@@ -42,6 +42,15 @@
         }
       }
     }
+    
+    public function delete() {
+      if($this->id && $this->id > 0) {
+        Logger::debug("Delete tournament ".$this->id." from database");
+        $this->dao->deleteTournament($this->id);
+      } else {
+        throw new LogWarning("tourn_delete_no_id");
+      }
+    }
   
     public function getId()
     {

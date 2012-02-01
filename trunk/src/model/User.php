@@ -8,6 +8,7 @@ class User {
   private $password;
   private $avatar;
   private $nickname;
+  private $role;
   
   private $team;
   
@@ -31,6 +32,7 @@ class User {
          $this->username = $result['name'];
          $this->nickname = $result['nickname'];
          $this->avatar = $result['avatar'];
+         $this->role = $result['roleid'];
          return true;
        } else {
          throw new Exception("error_login");
@@ -67,6 +69,7 @@ class User {
     $this->username = $user['name'];
     $this->password = $user['password'];
     $this->avatar = $user['avatar'];
+    $this->role = $user['roleid'];
   }
   
   private function loadByName() {
@@ -79,6 +82,7 @@ class User {
     $this->password = $user['password'];
     $this->nickname = $user['nickname'];
     $this->avatar = $user['avatar'];
+    $this->role = $user['roleid'];
   }
   
   private function loadById() {
@@ -90,13 +94,14 @@ class User {
     $this->password = $user['password'];
     $this->nickname = $user['nickname'];
     $this->avatar = $user['avatar'];
+    $this->role = $user['roleid'];
   }
   
   public function save() {
     Logger::debug("User::save()","User");
     if($this->id) {
       Logger::debug("User::save::update()","User");
-      $this->dao->update($this->id, $this->username, $this->password, $this->nickname, $this->avatar);
+      $this->dao->update($this->id, $this->username, $this->password, $this->nickname, $this->avatar, $this->role);
     } else {
       Logger::debug("User::save::register() ".print_r(array($this->username, $this->password, $this->nickname, $this->avatar), true),"User");
       $this->dao->register($this->username, $this->password, $this->nickname, $this->avatar);
@@ -162,6 +167,14 @@ class User {
   public function setNickname($nickname)
   {
       $this->nickname = $nickname;
+  }
+  
+  public function setRole($number) {
+     $this->role = $number;
+  }
+  
+  public function getRole() {
+    return $this->role;
   }
   
   public function register() {
