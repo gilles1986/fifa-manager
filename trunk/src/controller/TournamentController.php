@@ -57,6 +57,9 @@ class TournamentController extends Controller {
           $this->var->assign("teamField", true);  
         }
       }
+      $config = new Config;
+      $config->load();
+      $this->var->assign("config",$config);
       
       $this->show();
     } else {
@@ -108,6 +111,7 @@ class TournamentController extends Controller {
     $this->var->assign("takenUsers", $takenUsers->getUsers());
     $this->var->assign("freeUsers", $freeUsers->getUsers());
     
+    
     $this->show();
   }
   
@@ -150,9 +154,11 @@ class TournamentController extends Controller {
     $tourn->setId($tournId);
     $tourn->load();
     $tourn->setStatus("started");
+    $config = new Config;
+    $config->load();
     try {
       $user = unserialize($_SESSION['user']);
-      if($user->getId() != $tourn->getAutorid()) throw new LogWarning("Insufficient Permission"); 
+      if($user->getId() != $tourn->getAutorid() && $user->getRole() < $config->get("modify_tourn_role")) throw new LogWarning("Insufficient Permission"); 
       $tourn->save();
       $tournplayer = new TournamentPlayers();
       $tournplayer->setId($tourn->getId());
@@ -193,8 +199,8 @@ class TournamentController extends Controller {
     
     try {
       $user = unserialize($_SESSION['user']);
-      Logger::debug("User Rolle: ".$user->getRole().", und Config Rolle: ".$config->get("delete_role"), "TournamentController");
-      if($user->getId() != $tourn->getAutorid() && $user->getRole() < $config->get("delete_role")) throw new LogWarning("Insufficient Permission"); 
+      Logger::debug("User Rolle: ".$user->getRole().", und Config Rolle: ".$config->get("modify_tourn_role"), "TournamentController");
+      if($user->getId() != $tourn->getAutorid() && $user->getRole() < $config->get("modify_tourn_role")) throw new LogWarning("Insufficient Permission"); 
       $tourn->delete();
             
     } catch(LogWarning $e) {

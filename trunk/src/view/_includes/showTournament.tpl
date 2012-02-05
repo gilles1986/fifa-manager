@@ -1,4 +1,4 @@
-{assign var="lang" value="Home/home_{$lang}.conf"}
+  {assign var="lang" value="Home/home_{$lang}.conf"}
 {if $site->exists($lang)}
   {config_load section="tournament" file={eval var=$lang}} 
 {else}
@@ -80,19 +80,19 @@
 {if $message != ""}
 <p>{#$message#}</p>
 {/if}
-  
 
+{* Nur das Menü anzeigen wenn man der Autor des Turnier ist oder man die Erlaubnis hat *}
+{if $tournament->getAutorId() == $user->getId() || ($user->getRole() >= $config->get("modify_tourn_role"))}  
 <ul style="margin-top: 3em;">
 <li><a class="dynLink ajaxContent" href="?action=addGame&id={$tournament->getId()}">{#add_game#}</a></li>
 <li><a class="dynLink ajaxContent" href="?action=addPlayer&id={$tournament->getId()}">{#add_player#}</a></li>
 {if $tournament->getStatus() == "open"}
-  {if $players|@count > 1 && $numberTeams == $players|@count && $tournament->getAutorId() == $user->getId()}
+  {if $players|@count > 1 && $numberTeams == $players|@count}
   <li><a class="dynLink ajaxContent" href="?action=startTourn&id={$tournament->getId()}">{#start_tourn#}</a></li>
   {/if}
 {else}
- {if $tournament->getAutorId() == $user->getId()}
 <li><a class="dynLink ajaxContent" href="?action=stopTourn&id={$tournament->getId()}">{#stop_tourn#}</a></li>
- {/if}
 {/if}
 <li><a class="dynLink ajaxContent" href="?action=deleteTourn&id={$tournament->getId()}">{#delete_tourn#}</a></li>
+{/if}
 </ul>
