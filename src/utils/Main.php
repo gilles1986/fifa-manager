@@ -74,7 +74,7 @@ class Main {
       $obj = new $className($contr, $action);
       $obj->{$contr}();
     } catch (Exception $e) {
-      echo "OHOH";
+      echo "Es ist ein Fehler aufgetreten: ".$e->getMessage();
     }
     
     /*

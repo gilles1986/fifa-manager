@@ -49,7 +49,7 @@ class UserDao {
     Select `user`.`name` as `name`,
     `user`.`nickname` as `nickname`,
     `user`.`id` as `id`,
-    `user`.`role` as `role`,
+    `user`.`roleid` as `roleid`,
     `user`.`avatar` as `avatar`,
     `tournplayer`.`team` as `team`, 
     `tournplayer`.`wins` as `wins`,
@@ -63,14 +63,14 @@ class UserDao {
   
   public function getUsersByTournamentId($id) {
     $this->db->connect();
-    $res = $this->db->select("Select `user`.`nickname` as `nickname`,`user`.`id` as `id`, `user`.`role` as `role`,`user`.`avatar` as `avatar`, `tournplayer`.`team` as `team` From `user`, `tournplayer`  Where `user`.`id` = `tournplayer`.`playerid` AND `tournid`='".intval($id)."'");
+    $res = $this->db->select("Select `user`.`nickname` as `nickname`,`user`.`id` as `id`, `user`.`roleid` as `roleid`,`user`.`avatar` as `avatar`, `tournplayer`.`team` as `team` From `user`, `tournplayer`  Where `user`.`id` = `tournplayer`.`playerid` AND `tournid`='".intval($id)."'");
     $this->db->close();
     return $res;
   }
   
   public function getFreeUsersByTournamentId($id) {
     $this->db->connect();
-    $res = $this->db->select("SELECT `user`.`nickname` as `nickname`, `user`.`id` as `id`, `user`.`role` as `role`, `user`.`avatar` as `avatar` FROM `user` WHERE 
+    $res = $this->db->select("SELECT `user`.`nickname` as `nickname`, `user`.`id` as `id`, `user`.`roleid` as `roleid`, `user`.`avatar` as `avatar` FROM `user` WHERE 
     `id` NOT IN (SELECT `tournplayer`.`playerid` FROM `tournplayer` WHERE `tournid` = '".intval($id)."')");
     $this->db->close();
     return $res;
