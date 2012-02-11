@@ -10,6 +10,11 @@ class ErrorController extends Controller {
     
     $this->show();
   }
+  
+  public function noDb() {
+    
+    $this->show();
+  }
 }
 
 

@@ -3,7 +3,7 @@
 class HomeController extends Controller {
   
   public function init() {
-    $this->var->assign("title","Super Seite");
+    $this->var->assign("title","Fifa Tournament Manager");
     $scripts = array("main", "home");
     // If logged in load the backend scripts too
     if($_SESSION['loggedIn']) {
@@ -25,6 +25,12 @@ class HomeController extends Controller {
   }
   
   public function home() {
+    
+    // Check if the database is connectable
+    if(! MysqlDatabase::isConnectable(parse_ini_file(CONFIG."db.ini"))) {
+      header("Location: index.php?action=noDb");
+    }
+    
     // Check if is installed
     $tournamentConfig = parse_ini_file(CONFIG."tournament.ini");
     if($tournamentConfig['installed'] != "true") {
