@@ -107,8 +107,19 @@ class MysqlDatabase {
     $this->debug    = (boolean)$dbData['debug'];
     $this->active   = true;
   }
-
-
+  
+  
+  public static function isConnectable(Array $dbData = array()) {
+    if(!$dbData['host'] && !$dbData['user'] && !$dbData['db']) {
+      Logger::warning("DB Daten sind nicht vorhanden", "db");
+      return;
+    }
+    
+    $dbObj = @mysql_connect($dbData['host'], $dbData['user'], $dbData['password']);
+    if(!$dbObj) return false;
+    return true;
+  }
+  
   /**
    * Verbindet mit der Datenbank, wenn möglich.
    *
@@ -121,7 +132,9 @@ class MysqlDatabase {
       }
 
       // Stellt die Verbindung mit der Datenbank her
-      $this->dbObj = mysql_connect($this->host, $this->user, $this->password);
+      $this->dbObj = @mysql_connect($this->host, $this->user, $this->password);
+      if($this->dbObj == false)
+      return mysql_error();
 
       // Wenn die Verbindung fehlgeschlagen ist
       if(!$this->dbObj) {

@@ -4,6 +4,11 @@
     "space" : "Error",
     "view" : "404"
   },
+  "noDb" : {
+    "controller" : "Error",
+    "space" : "Error",
+    "view" : "noDB"
+  },
 	"home" : {
     "controller" : "Home",
 		"space" : "Home",
