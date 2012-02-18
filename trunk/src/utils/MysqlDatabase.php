@@ -148,11 +148,11 @@ class MysqlDatabase {
         // Wählt die Datenbank aus, wenn das nicht klappt...
         if(!mysql_select_db($this->db)) {
           // ... dann gebe einen Fehler aus...
-          echo "Verbindung nicht moeglich";
+          echo "Connection not possible. Please see logs for more information";
 
           // ... und logge das ggf.
           if($this->debug) {
-            Logger::warning("Verbindung zur Datenbank '{$this->db}' nicht moeglich", "db");
+            Logger::warning("Verbindung zur Datenbank '{$this->db}' nicht moeglich: ".print_r(mysql_error(), true), "db");
           }
         }
         else {

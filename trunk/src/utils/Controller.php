@@ -26,7 +26,7 @@ abstract class Controller {
     $site = new Site();
     $this->var->assign("site", $site );
     
-    $lang = ($_COOKIE['lang']) ? $_COOKIE['lang'] : "en";  
+    $lang = (ch::get('lang')) ? ch::get('lang') : "en";  
     $this->var->assign("lang", $lang);
     try {
       $this->init();
