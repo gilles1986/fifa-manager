@@ -14,8 +14,10 @@ class Main {
     include_once SRC."utils/MysqlDatabase.php";
     include_once SRC."utils/IniWriter.php";
     include_once SRC."utils/FileUploader.php";
+    include_once SRC."utils/SuperGlobalHandlers.php";
     include_once SRC."utils/LogException.php";
     include_once SRC."libs/Smarty.class.php";
+    
 
 
 
@@ -25,9 +27,9 @@ class Main {
     Logger::init();
 
     // Aktion auslesen
-    Logger::info("Request ist ".print_r($_REQUEST, true), "System");
-    Logger::debug("Action Name ist '".$_REQUEST['action']."'", "System");
-    $action = ($_REQUEST['action']) ? $_REQUEST['action'] : "home";
+    Logger::info("Request ist ".print_r(rh::get("",true), true), "System");
+    Logger::debug("Action Name ist '".rh::get('action')."'", "System");
+    $action = (rh::get('action')) ? rh::get('action') : "home";
     $actionsConf = parse_ini_file(CONFIG."action.ini");
 
     try {

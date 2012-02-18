@@ -6,7 +6,7 @@ class HomeController extends Controller {
     $this->var->assign("title","Fifa Tournament Manager");
     $scripts = array("main", "home");
     // If logged in load the backend scripts too
-    if($_SESSION['loggedIn']) {
+    if(sh::get('loggedIn')) {
       array_push($scripts, "backend");  
     }
     $this->var->assign("scripts",$scripts);
@@ -14,12 +14,12 @@ class HomeController extends Controller {
     include_once SRC."model/User.php";
     include_once SRC."dao/UserDao.php";
     
-    if($_SESSION['error']) {
+    if(sh::get('error')) {
       Logger::debug("Setze Error Message: ".$_SESSION['error'], "HomeController");
       $this->var->assign("error", $_SESSION['error']);
       $_SESSION['error'] = null;
     }
-    if($_SESSION['user']) {
+    if(sh::get('user')) {
       $this->var->assign("user", unserialize($_SESSION['user']));
     }
   }
@@ -36,7 +36,7 @@ class HomeController extends Controller {
     if($tournamentConfig['installed'] != "true") {
       header("Location: index.php?action=installer");
     }
-    if($_SESSION['loggedIn']) $this->loadTable();
+    if(sh::get('loggedIn')) $this->loadTable();
     
     $this->show();    
   }
