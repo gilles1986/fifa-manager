@@ -37,7 +37,6 @@ class HomeController extends Controller {
       header("Location: index.php?action=installer");
     }
     if(sh::get('loggedIn')) $this->loadTable();
-    
     $this->show();    
   }
   
