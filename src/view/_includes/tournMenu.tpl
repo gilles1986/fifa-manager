@@ -8,5 +8,6 @@
   <li><a class="dynLink ajaxContent" href="?action=manager">Home</a></li>
   <li><a class="dynLink ajaxContent" href="?action=createTourn">{#create_tourn#}</a></li>
   <li><a class="dynLink ajaxContent" href="?action=searchTourn">{#search_tourn#}</a></li>
+  <li><a class="dynLink ajaxContent" href="?action=createLeague">{#create_league#}</a></li>
 </ul>
   
