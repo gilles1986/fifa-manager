@@ -119,6 +119,11 @@
     "controller" : "Home",
     "space" : "_includes",
     "view" : "profile"
+  },
+  "createLeague" : {
+    "controller" : "League",
+    "space" : "",
+    "view" : "start"
   }
 }
 
