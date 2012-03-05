@@ -122,7 +122,7 @@
   },
   "createLeague" : {
     "controller" : "League",
-    "space" : "",
+    "space" : "League",
     "view" : "start"
   }
 }
