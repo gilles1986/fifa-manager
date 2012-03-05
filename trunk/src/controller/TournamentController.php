@@ -2,6 +2,8 @@
 
 class TournamentController extends Controller {
   
+  public $tournDao;
+  
   public function init() {
     include_once SRC."model/Config.php";
     include_once SRC."dao/ConfigDao.php";
@@ -18,6 +20,7 @@ class TournamentController extends Controller {
     include_once SRC."model/Team.php";
     include_once SRC."model/Teams.php";
     include_once SRC."dao/TournamentDao.php";
+	include_once SRC."controller/GenerateTournamentController.php";
     if($_SESSION['user']) {
       $this->var->assign("user", unserialize($_SESSION['user']));
     }
@@ -91,6 +94,17 @@ class TournamentController extends Controller {
     
     
     $this->redirect("index.php?action=manager");
+  }
+  
+  public function generateTournament()
+  {
+	if(!$_GET['tournid']) {
+		echo "ERROR: No Torunament selected";
+	} else {
+		$tournamentHandler = new GenerateTournamentController();
+		$tournamentHandler -> init($_GET['tournid']);
+		
+	}
   }
   
   public function addGame() {

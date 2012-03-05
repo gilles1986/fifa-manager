@@ -74,7 +74,12 @@ class TournamentDao {
     return $res;
   }
   
-  
+  public function getTournPlayersByTournId($tournid) {
+  	$this->db->connect();
+    $res = $this->db->select("Select * From `tournplayer` Where `tournid` = '".intval($tournid)."'");
+    $this->db->close();
+    return $res;
+  }
   
   public function getTournPlayerByIds($playerid, $tournid) {
     $this->db->connect();
@@ -98,6 +103,8 @@ class TournamentDao {
     $this->db->close();
     return $res[0];
   }
+  
+
   
   public function insertTournamentPlayer($playerid, $tournid) {
     $this->db->connect();
