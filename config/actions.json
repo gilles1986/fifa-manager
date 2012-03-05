@@ -49,6 +49,12 @@
     "space" : "_includes",
     "view" : "showTournament"
   },
+
+"generateTournament" : {
+    "controller" : "Tournament",
+    "space" : "_includes",
+    "view" : "generateTournament"
+  },
 	"createTournament" : {
     "controller" : "Tournament",
     "space" : "_includes",
