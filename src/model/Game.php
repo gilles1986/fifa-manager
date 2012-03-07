@@ -8,7 +8,7 @@ class Game {
   private $player2;
 
   public function __construct() {
-    $this -> dao = new TeamDao();
+    $this->dao = new TeamDao();
   }
 
   public function save() {
