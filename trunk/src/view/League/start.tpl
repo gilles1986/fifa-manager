@@ -1,5 +1,9 @@
 <div>
    <p>League Manager</p>
-   {$game->getPlayer1()->getName()}
+   <ul>
+   {foreach from=$games item=game}
+     <li>{$game->getPlayer1()->getName()} vs. {$game->getPlayer2()->getName()}</li> 
+   {/foreach}
+   </ul>
    
 </div>

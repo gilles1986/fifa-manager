@@ -37,16 +37,29 @@ class LeagueController extends Controller {
      $player2 = new Team();
      $player2->setName("John");
      
+     $player3 = new Team();
+     $player3->setName("Jack");
      
+     $player4 = new Team();
+     $player4->setName("Forter");
      
+     $players = array($player1,$player2, $player3, $player4);
+     $games = array();
+     
+     for($spieler1 = 0; $spieler1 < count($players); $spieler1++) {
+       for($spieler2 = ($spieler1+1); $spieler2 < count($players); $spieler2++) {
+        $game = new Game();
+        $game->setPlayer1($players[$spieler1]);
+        $game->setPlayer2($players[$spieler2]);
+        array_push($games, $game);  
+       }
        
-     $game1 = new Game();
-     $game1->setPlayer1($player1);
-     $game1->setPlayer2($player2);
+     }
      
+     shuffle($games);
      
-     $this->var->assign("game", $game1);
-      
+     $this->var->assign("games", $games);
+       
        
      $this->show();
   }
