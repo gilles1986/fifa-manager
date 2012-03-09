@@ -1,0 +1,1 @@
+ALTER TABLE  `tourn` ADD  `type` VARCHAR( 20 ) NOT NULL DEFAULT  'tourn';
