@@ -1,6 +1,6 @@
 <?php
 
-class TournamentDao {
+class LeagueDao {
   
   private $db;
   
@@ -8,21 +8,21 @@ class TournamentDao {
     $this->db = new MysqlDatabase(parse_ini_file(CONFIG."db.ini"));
   }
   
-  public function loadTournamentById($id) {
+  public function loadLeagueById($id) {
     $this->db->connect();
-    $res = $this->db->select("Select * from `tourn` Where `id` = '".intval($id)."'");
+    $res = $this->db->select("Select * from `tourn` Where `id` = '".intval($id)."' and `type`='league'");
     $this->db->close();
     return $res[0];
   }
   
-  public function loadOwnTournamentsByUserId($id) {
+  public function loadOwnLeaguesByUserId($id) {
     $this->db->connect();
-    $res = $this->db->select("Select * from `tourn` Where `autorid` = '".intval($id)."' and `type`='tourn'");
+    $res = $this->db->select("Select * from `tourn` Where `autorid` = '".intval($id)."' and `type`='league'");
     $this->db->close();
     return $res;
   }
   
-  public function loadTournamentsByUserId($id) {
+  public function loadLeaguesByUserId($id) {
     $this->db->connect();
     $res = $this->db->select("SELECT
      `t`.`id` as `id`,
@@ -34,43 +34,43 @@ class TournamentDao {
      WHERE `t`.`autorid` = '".intval($id)."' 
      OR  `tp`.`playerid` = '".intval($id)."' 
      AND `tp`.`tournid` = `tournid`
-     And `t`.`type` = 'tourn'
+     AND `t`.`type` = 'league' 
      GROUP BY `t`.`id`");
     $this->db->close();
     return $res;
   }
   
-  public function loadTournaments() {
+  public function loadLeagues() {
     $this->db->connect();
-    $res = $this->db->select("Select * from `tourn` Where `type`='tourn'");
+    $res = $this->db->select("Select * from `tourn` Where `type`='league'");
     $this->db->close();
     return $res;
   }
   
   public function loadGamesByTournamentId($id) {
     $this->db->connect();
-    $res = $this->db->select("Select * from `tourn` Where `type`='tourn'");
+    $res = $this->db->select("Select * from `tourn` Where `type`='league'");
     $this->db->close();
     return $res;
   }
   
   public function updateTournament($id, $name, $status, $autorid, $winner=0) {
     $this->db->connect();
-    $status = $this->db->update("tourn",array("name","status","winnerid","autorid", "type"), array(mysql_real_escape_string($name), mysql_real_escape_string($status), mysql_real_escape_string($winner), intval($autorid), "tourn"),"`id`='".intval($id)."'");
+    $status = $this->db->update("tourn",array("name","status","winnerid","autorid", "type"), array(mysql_real_escape_string($name), mysql_real_escape_string($status), mysql_real_escape_string($winner), intval($autorid), "league"),"`id`='".intval($id)."'");
     $this->db->close(); 
     return $status;   
   }
   
   public function insertTournament($name, $autorid) {
     $this->db->connect();
-    $status = $this->db->insert("tourn",array("name","status","winnerid","autorid", "type"), array(mysql_real_escape_string($name),"open",0, $autorid, "tourn") );
+    $status = $this->db->insert("tourn",array("name","status","winnerid","autorid", "type"), array(mysql_real_escape_string($name),"open",0, $autorid, "league") );
     $this->db->close();
     return $status;    
   }
   
   public function getUsersByTourn($id) {
     $this->db->connect();
-    $res = $this->db->select("Select `id` from `tourn` Where `type`='tourn'");
+    $res = $this->db->select("Select `id` from `tourn` Where `type`='league'");
     $this->db->close();
     return $res;
   }
