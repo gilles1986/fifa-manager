@@ -1,0 +1,1 @@
+This tournament manager can be used to create own tournaments. You can register player, add them to tournaments and write down the results of games
